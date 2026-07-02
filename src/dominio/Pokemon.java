@@ -1,0 +1,24 @@
+package dominio;
+
+public class Pokemon extends Carta {
+	//Pokemon ->Daño;CantEnergias
+	private int daño;
+	private int CantEnergias;
+
+	public Pokemon(String nombreCarta, int rareza, int daño, int CantEnergias ) {
+		super(nombreCarta, rareza);
+		this.CantEnergias = CantEnergias;
+		this.daño = daño;
+	}
+	public int getDaño() {
+		return daño;
+	}
+	public int getCantEnergias() {
+		return CantEnergias;
+	}
+	@Override
+	public String toString() {
+		return "Pokemon: "+ super.getNombreCarta()+ "| rareza: "+ super.getRareza()+"| daño: "+daño+"| CantEnergias: " + CantEnergias;
+	}
+
+}

@@ -1,5 +1,6 @@
 package Factory;
 
+import dominio.Carta;
 import dominio.Energy;
 import dominio.Item;
 import dominio.Pokemon;

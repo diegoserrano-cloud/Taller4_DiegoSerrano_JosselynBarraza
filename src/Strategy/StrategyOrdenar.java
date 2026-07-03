@@ -1,6 +1,6 @@
 package Strategy;
 
-import Factory.Carta;
+import dominio.Carta;
 
 /**
  * Interfaz Strategy para las distintas formas de ordenar la colección.
@@ -15,5 +15,6 @@ public interface StrategyOrdenar {
 	 * @param c2 segunda carta a comparar
 	 * @return true si c1 debe ir después de c2
 	 */
-	boolean vaDespues(Carta c1, Carta c2);
+	boolean elSiguiente(Carta c1, Carta c2);
+	
 }

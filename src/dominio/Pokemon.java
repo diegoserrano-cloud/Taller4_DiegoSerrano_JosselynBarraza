@@ -1,6 +1,5 @@
 package dominio;
 
-import Factory.Carta;
 import Visitor.Visitor;
 
 public class Pokemon extends Carta {

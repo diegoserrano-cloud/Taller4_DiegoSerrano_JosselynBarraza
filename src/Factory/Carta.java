@@ -1,4 +1,6 @@
-package dominio;
+package Factory;
+
+import Visitor.*;
 
 public abstract class Carta {
 //NombreCarta;Rareza;Tipo;...
@@ -15,6 +17,9 @@ public abstract class Carta {
 	public int getRareza() {
 		return rareza;
 	}
+	
+	public abstract double accept(Visitor visitor);
+	
 	@Override
 	public String toString() {
 		return "Carta: "+nombreCarta + "| rareza: " + rareza;

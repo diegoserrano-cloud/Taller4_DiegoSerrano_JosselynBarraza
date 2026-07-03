@@ -1,4 +1,9 @@
-package dominio;
+package Factory;
+
+import dominio.Energy;
+import dominio.Item;
+import dominio.Pokemon;
+import dominio.Supporter;
 
 public class FactoryCarta {
 	/*NombreCarta;Rareza;Tipo;...

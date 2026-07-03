@@ -1,5 +1,8 @@
 package dominio;
 
+import Factory.Carta;
+import Visitor.Visitor;
+
 public class Energy extends Carta {
 	//Energy -> Elemento
 	private String elemento;
@@ -13,5 +16,10 @@ public class Energy extends Carta {
 	@Override
 	public String toString() {
 		return "Energy: "+ super.getNombreCarta() + "| rareza: " + super.getRareza()+"| elemento: " + elemento;
+	}
+	@Override
+	public double accept(Visitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

@@ -26,7 +26,7 @@ public class App {
 	private static void menu_Coleccion() {
 		String op = "";
 		do {
-		System.out.println("Ordenar Cartas po: \n"+"1. Ordenar por Rareza.\n"
+		System.out.println("Ordenar Cartas por: \n"+"1. Ordenar por Rareza.\n"
 				+ "2. Ordenar por Nombre."
 				+ "3. Ordenar por Poder.\n"+"3.Salir");
 		op = sc.next();

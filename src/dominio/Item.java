@@ -1,5 +1,8 @@
 package dominio;
 
+import Factory.Carta;
+import Visitor.Visitor;
+
 public class Item extends Carta {
 	//Artículo ->Bonificacion
 	private int bonificacion;
@@ -13,5 +16,10 @@ public class Item extends Carta {
 	@Override
 	public String toString() {
 		return "Item: "+ super.getNombreCarta() + "| rareza: " + super.getRareza()+"| bonificacion" + bonificacion;
+	}
+	@Override
+	public double accept(Visitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

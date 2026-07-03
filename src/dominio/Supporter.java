@@ -1,5 +1,8 @@
 package dominio;
 
+import Factory.Carta;
+import Visitor.Visitor;
+
 public class Supporter extends Carta {
 	//Supporter -> EfectosPorTurno
 	private int efectos;
@@ -13,5 +16,10 @@ public class Supporter extends Carta {
 	@Override
 	public String toString() {
 		return "Supporter: "+ super.getNombreCarta() + "| rareza: " + super.getRareza()+"| efectos: " + efectos;
+	}
+	@Override
+	public double accept(Visitor visitor) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

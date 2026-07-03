@@ -2,6 +2,8 @@ package logica;
 
 import java.util.ArrayList;
 
+import Factory.Carta;
+import Factory.FactoryCarta;
 import dominio.*;
 
 public class SistemaImple implements Sistema {

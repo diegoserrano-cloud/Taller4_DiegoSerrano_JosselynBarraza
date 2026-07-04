@@ -57,4 +57,16 @@ public class SistemaImple implements Sistema {
 			}
 		}
 	}
+	
+	/**
+	 * Devuelve una representación en texto de la colección actual de cartas.
+	 * @return String con todas las cartas, una por línea
+	 */
+	public String mostrarColeccion() {
+		String msg = "";
+		for (Carta c : cartas) {
+			msg += c.toString() + "\n";
+		}
+		return msg;
+	}
 }

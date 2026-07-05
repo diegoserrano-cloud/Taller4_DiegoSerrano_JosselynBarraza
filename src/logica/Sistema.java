@@ -16,4 +16,5 @@ public interface Sistema {
 
 	public void guardarArchivo();
 
+	public String tipoDeCarta(int indice);
 }

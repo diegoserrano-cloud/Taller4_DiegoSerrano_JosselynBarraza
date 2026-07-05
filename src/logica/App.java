@@ -21,13 +21,15 @@ import javax.swing.*;
 public class App {
 	private static Sistema sis = SistemaImple.getInstancia();
 	private static Scanner sc = new Scanner(System.in);
+	private static JFrame ventana;
 
 	public static void main(String[] args) throws Exception {
 		leer_Arch();
-		JFrame ventana = new JFrame("Sistema");
-		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //2º
-		ventana.setSize(600,500); //3º
-		
+		ventana = new JFrame("Sistema");
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		ventana.setSize(800, 600);
+		ventana.setLocationRelativeTo(null);
+
 		ventana.getContentPane().add(crearGUI(ventana));
 		ventana.setVisible(true);
 
@@ -35,8 +37,10 @@ public class App {
 
 	private static Component crearGUI(JFrame ventana) {
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setBackground(Color.BLUE);
+		mainPanel.setBackground(new Color(245, 245, 250));
 		JPanel botonera = new JPanel();
+		botonera.setBorder(BorderFactory.createEmptyBorder(20, 15, 20, 15));
+		botonera.setBackground(new Color(245, 245, 250));
 		botonera.setLayout(new BoxLayout(botonera, BoxLayout.Y_AXIS));
 		
 		JPanel panelVacio = new JPanel(new BorderLayout());
@@ -57,6 +61,8 @@ public class App {
 		b1.addActionListener(e ->{
 			menu_Administración();
 		});
+		b1.setMaximumSize(new java.awt.Dimension(200, 40));
+		b1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		return b1;
 	}
 
@@ -100,13 +106,15 @@ public class App {
 	            resultado.setText("<html>" + texto + "</html>");
 	        });
 
-	        panelVacio.add(l);
-	        panelVacio.add(inputPanel);
-	        panelVacio.add(resultado);
-
+	        panelVacio.add(l, BorderLayout.NORTH);
+	        panelVacio.add(inputPanel, BorderLayout.CENTER);
+	        panelVacio.add(resultado, BorderLayout.SOUTH);
+	        
 	        panelVacio.revalidate();
 	        panelVacio.repaint();
 	        });
+		b2.setMaximumSize(new java.awt.Dimension(200, 40));
+		b2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		return b2;
 	}
 	private static String menu_Coleccion(String op) {
@@ -135,8 +143,22 @@ public class App {
 			
 	}
 	private static void menu_Administración() {
-		agregar_Carta();
+		Object[] opciones = {"Agregar Carta", "Eliminar Carta", "Modificar Carta"};
+		int seleccion = JOptionPane.showOptionDialog(ventana, "¿Qué acción deseas realizar?",
+				"Administración", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+				null, opciones, opciones[0]);
 
+		switch (seleccion) {
+			case 0: 
+				agregar_Carta(); 
+				break;
+			case 1: 
+				eliminar_Carta(); 
+				break;
+			case 2: 
+				modificar_Carta();
+				break;
+		}
 	}
 
 	private static void agregar_Carta() {
@@ -192,7 +214,7 @@ public class App {
 			}
 		});
 
-		int resultado = JOptionPane.showConfirmDialog(null, panel, "Agregar Carta",
+		int resultado = JOptionPane.showConfirmDialog(ventana, panel, "Agregar Carta",
 				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
 		if (resultado == JOptionPane.OK_OPTION) {
@@ -231,6 +253,115 @@ public class App {
 
 		}
 		lec.close();
+	}
+	
+	private static void eliminar_Carta() {
+		String coleccion = sis.mostrarColeccion();
+
+		if (coleccion.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No hay cartas en la colección.");
+			return;
+		}
+
+		String indiceStr = JOptionPane.showInputDialog(null,
+				coleccion + "\nIngresa el índice de la carta a eliminar:",
+				"Eliminar Carta", JOptionPane.PLAIN_MESSAGE);
+
+		if (indiceStr == null) return; // canceló
+
+		try {
+			int indice = Integer.parseInt(indiceStr.trim());
+			boolean ok = sis.eliminarCarta(indice);
+
+			if (ok) {
+				JOptionPane.showMessageDialog(null, "Carta eliminada correctamente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Índice inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Debes ingresar un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private static void modificar_Carta() {
+		String coleccion = sis.mostrarColeccion();
+
+		if (coleccion.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "No hay cartas en la colección.");
+			return;
+		}
+
+		String indiceStr = JOptionPane.showInputDialog(ventana,
+				coleccion + "\nIngresa el índice de la carta a modificar:",
+				"Modificar Carta", JOptionPane.PLAIN_MESSAGE);
+
+		if (indiceStr == null) return;
+
+		int indice;
+		try {
+			indice = Integer.parseInt(indiceStr.trim());
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Debes ingresar un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		String tipo = sis.tipoDeCarta(indice);
+		if (tipo == null) {
+			JOptionPane.showMessageDialog(null, "Índice inválido.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		JTextField campo1 = new JTextField(10);
+		JTextField campo2 = new JTextField(10);
+
+		switch (tipo) {
+			case "Pokemon":
+				panel.add(new JLabel("Nuevo Daño:"));
+				panel.add(campo1);
+				panel.add(new JLabel("Nueva CantEnergias:"));
+				panel.add(campo2);
+				break;
+			case "Item":
+				panel.add(new JLabel("Nueva Bonificación:"));
+				panel.add(campo1);
+				break;
+			case "Supporter":
+				panel.add(new JLabel("Nuevos EfectosPorTurno:"));
+				panel.add(campo1);
+				break;
+			case "Energy":
+				panel.add(new JLabel("Nuevo Elemento:"));
+				panel.add(campo1);
+				break;
+		}
+
+		int resultado = JOptionPane.showConfirmDialog(ventana, panel, "Modificar Carta (" + tipo + ")",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+		if (resultado == JOptionPane.OK_OPTION) {
+			try {
+				String[] nuevosDatos;
+				if (tipo.equals("Pokemon")) {
+					nuevosDatos = new String[] {campo1.getText(), campo2.getText()};
+				} else {
+					nuevosDatos = new String[] {campo1.getText()};
+				}
+
+				boolean ok = sis.modificarCarta(indice, nuevosDatos);
+				if (ok) {
+					JOptionPane.showMessageDialog(null, "Carta modificada correctamente.");
+				} else {
+					JOptionPane.showMessageDialog(null, "No se pudo modificar.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Ingresa valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 
 }

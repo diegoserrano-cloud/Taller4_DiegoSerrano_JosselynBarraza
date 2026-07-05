@@ -133,4 +133,17 @@ public class SistemaImple implements Sistema {
 		}
 		
 	}
+
+	@Override
+	public String tipoDeCarta(int indice) {
+		if (indice < 0 || indice >= cartas.size()) {
+			return null;
+		}
+		Carta c = cartas.get(indice);
+		if (c instanceof Pokemon) return "Pokemon";
+		if (c instanceof Item) return "Item";
+		if (c instanceof Supporter) return "Supporter";
+		if (c instanceof Energy) return "Energy";
+		return null;
+	}
 }

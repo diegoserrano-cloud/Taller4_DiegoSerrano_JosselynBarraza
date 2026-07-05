@@ -9,7 +9,7 @@ public interface Sistema {
 
 	public void ordenar();
 
-	public void setEstrategia(StrategyOrdenar estrategia);
+	public void setEstrategia(String e);
 
 	public String mostrarColeccion();
 

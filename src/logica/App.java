@@ -8,6 +8,7 @@
 package logica;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -18,9 +19,9 @@ import java.util.Scanner;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import Strategy.*;
+import javax.swing.JTextField;
 
 public class App {
 	private static Sistema sis = SistemaImple.getInstancia();
@@ -34,9 +35,6 @@ public class App {
 		
 		ventana.getContentPane().add(crearGUI(ventana));
 		ventana.setVisible(true);
-		
-		menu_Administración();
-		menu_Coleccion();
 
 	}
 
@@ -50,60 +48,96 @@ public class App {
 		
 		JButton cargar = crearBotton1(panelVacio);
 		JButton agregar = crearBotton2( panelVacio);
-		JButton filtrar = crearBotton3(panelVacio);
 		
 		botonera.add(cargar);
 		botonera.add(agregar);
-		botonera.add(filtrar);
 		
 		mainPanel.add(botonera, BorderLayout.WEST);
 		mainPanel.add(panelVacio, BorderLayout.CENTER);
 		
 		return mainPanel;
 	}
-
-	private static JButton crearBotton3(JPanel panelVacio) {
-		JButton b3 = new JButton("boton 3");
-		return b3;
-	}
-
-	private static JButton crearBotton2(JPanel panelVacio) {
-		JButton b2 = new JButton("boton 2");
-		return b2;
-	}
-
 	private static JButton crearBotton1(JPanel panelVacio) {
-		JButton b1 = new JButton("boton 1");
+		JButton b1 = new JButton("Menú Administración");
+		b1.addActionListener(e ->{
+			menu_Administración();
+		});
 		return b1;
 	}
 
-	private static void menu_Coleccion() {
-		String op = "";
-		do {
-			System.out.println("Ordenar Cartas por: \n"
-					+ "1. Ordenar por Rareza.\n"
-					+ "2. Ordenar por Nombre.\n"
-					+ "3. Ordenar por Poder.\n"
-					+ "4. Salir");
-			op = sc.next();
-			switch(op) {
-			case "1":
-				sis.setEstrategia(new OrdenaRareza());
-				sis.ordenar();
-				System.out.println(sis.mostrarColeccion());
-				break;
-			case "2":
-				sis.setEstrategia(new OrdenNombre());
-				sis.ordenar();
-				System.out.println(sis.mostrarColeccion());
-				break;
-			case "3":
-				sis.setEstrategia(new OrdenPoder());
-				sis.ordenar();
-				System.out.println(sis.mostrarColeccion());
-				break;
-			}
-		} while(!op.equalsIgnoreCase("4"));
+	private static JButton crearBotton2(JPanel panelVacio) {
+		JButton b2 = new JButton("Menú Colección");
+		b2.addActionListener(e -> {
+
+			panelVacio.removeAll();
+			panelVacio.setLayout(new BorderLayout());
+
+	        JLabel l = new JLabel("<html>"
+	                + "Ordenar Cartas por:<br>"
+	                + "1. Ordenar por Rareza<br>"
+	                + "2. Ordenar por Nombre<br>"
+	                + "3. Ordenar por Poder<br>"
+	                + "4. Salir"
+	                + "</html>");
+
+	        JPanel inputPanel = new JPanel();
+
+	        JTextField input = new JTextField(10);
+	        JButton ok = new JButton("Aceptar");
+
+	        JLabel resultado = new JLabel(" ");
+
+	        inputPanel.add(new JLabel("Ingresa opción: "));
+	        inputPanel.add(input);
+	        inputPanel.add(ok);
+	        
+	        ok.addActionListener(ev -> {
+	            String opcion = input.getText();
+	            String texto = menu_Coleccion(opcion);
+
+	            if (opcion.equals("4")) {
+	                panelVacio.removeAll();
+	                panelVacio.revalidate();
+	                panelVacio.repaint();
+	                return;
+	            }
+
+	            resultado.setText("<html>" + texto + "</html>");
+	        });
+
+	        panelVacio.add(l);
+	        panelVacio.add(inputPanel);
+	        panelVacio.add(resultado);
+
+	        panelVacio.revalidate();
+	        panelVacio.repaint();
+	        });
+		return b2;
+	}
+	private static String menu_Coleccion(String op) {
+		switch (op) {
+		    case "1":
+		        sis.setEstrategia("Rareza");
+		        sis.ordenar();
+		        return sis.mostrarColeccion();
+		
+		    case "2":
+		        sis.setEstrategia("Nombre");
+		        sis.ordenar();
+		        return sis.mostrarColeccion();
+		
+		    case "3":
+		        sis.setEstrategia("Poder");
+		        sis.ordenar();
+		        return sis.mostrarColeccion();
+		
+		    case "4":
+		        return "Saliendo del menú...";
+		
+		    default:
+		        return "Opción inválida";
+		}
+			
 	}
 	private static void menu_Administración() {
 		agregar_Carta();

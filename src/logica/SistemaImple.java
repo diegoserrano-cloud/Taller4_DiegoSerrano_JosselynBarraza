@@ -2,8 +2,9 @@ package logica;
 
 import java.util.ArrayList;
 
+
 import Factory.FactoryCarta;
-import Strategy.StrategyOrdenar;
+import Strategy.*;
 import dominio.*;
 
 public class SistemaImple implements Sistema {
@@ -35,10 +36,15 @@ public class SistemaImple implements Sistema {
 	 * @param estrategia estrategia concreta a aplicar
 	 */
 
-	public void setEstrategia(StrategyOrdenar estrategia) {
-		this.estrategia = estrategia;
+	public void setEstrategia(String e) {
+		if(e.equalsIgnoreCase("Rareza")) {
+			this.estrategia = new OrdenaRareza();
+		}else if (e.equalsIgnoreCase("Nombre")) {
+			this.estrategia = new OrdenNombre();
+		}else if (e.equalsIgnoreCase("Poder")) {
+			this.estrategia = new OrdenPoder();
+		}
 	}
-
 	/**
 	 * Ordena la colección de cartas usando la estrategia actualmente asignada.
 	 * (Ordenamiento Burbuja)

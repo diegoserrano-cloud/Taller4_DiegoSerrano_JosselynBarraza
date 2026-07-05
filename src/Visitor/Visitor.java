@@ -11,8 +11,8 @@ import dominio.Supporter;
  */
 
 public interface Visitor {
-	double visitar(Pokemon p);
-	double visitar(Item i);
-	double visitar(Supporter s);
-	double visitar(Energy e);
+	public double visitar(Pokemon p);
+	public double visitar(Item i);
+	public double visitar(Supporter s);
+	public double visitar(Energy e);
 }

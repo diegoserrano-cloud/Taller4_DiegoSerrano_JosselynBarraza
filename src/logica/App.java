@@ -7,10 +7,18 @@
 
 package logica;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import Strategy.*;
 
@@ -19,11 +27,54 @@ public class App {
 	private static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("Hola soy la App");
 		leer_Arch();
+		JFrame ventana = new JFrame("Sistema");
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //2º
+		ventana.setSize(600,500); //3º
+		
+		ventana.getContentPane().add(crearGUI(ventana));
+		ventana.setVisible(true);
+		
 		menu_Administración();
 		menu_Coleccion();
 
+	}
+
+	private static Component crearGUI(JFrame ventana) {
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setBackground(Color.BLUE);
+		JPanel botonera = new JPanel();
+		botonera.setLayout(new BoxLayout(botonera, BoxLayout.Y_AXIS));
+		
+		JPanel panelVacio = new JPanel(new BorderLayout());
+		
+		JButton cargar = crearBotton1(panelVacio);
+		JButton agregar = crearBotton2( panelVacio);
+		JButton filtrar = crearBotton3(panelVacio);
+		
+		botonera.add(cargar);
+		botonera.add(agregar);
+		botonera.add(filtrar);
+		
+		mainPanel.add(botonera, BorderLayout.WEST);
+		mainPanel.add(panelVacio, BorderLayout.CENTER);
+		
+		return mainPanel;
+	}
+
+	private static JButton crearBotton3(JPanel panelVacio) {
+		JButton b3 = new JButton("boton 3");
+		return b3;
+	}
+
+	private static JButton crearBotton2(JPanel panelVacio) {
+		JButton b2 = new JButton("boton 2");
+		return b2;
+	}
+
+	private static JButton crearBotton1(JPanel panelVacio) {
+		JButton b1 = new JButton("boton 1");
+		return b1;
 	}
 
 	private static void menu_Coleccion() {

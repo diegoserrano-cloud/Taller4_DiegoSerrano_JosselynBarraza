@@ -21,8 +21,6 @@ public abstract class Carta {
 	public abstract double accept(Visitor visitor);
 	
 	@Override
-	public String toString() {
-		return "Carta: "+nombreCarta + "| rareza: " + rareza;
-	}
+	public abstract String toString();
 	
 }

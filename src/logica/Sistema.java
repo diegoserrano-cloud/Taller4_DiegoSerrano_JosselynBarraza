@@ -5,12 +5,12 @@ import Strategy.StrategyOrdenar;
 
 public interface Sistema {
 
-	void crearCarta(String[] partes);
+	public void crearCarta(String[] partes);
 
-	void ordenar();
+	public void ordenar();
 
-	void setEstrategia(StrategyOrdenar estrategia);
+	public void setEstrategia(StrategyOrdenar estrategia);
 
-	String mostrarColeccion();
+	public String mostrarColeccion();
 
 }

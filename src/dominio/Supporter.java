@@ -19,6 +19,6 @@ public class Supporter extends Carta {
 	@Override
 	public double accept(Visitor visitor) {
 		// TODO Auto-generated method stub
-		return 0;
+		return visitor.visitar(this);
 	}
 }

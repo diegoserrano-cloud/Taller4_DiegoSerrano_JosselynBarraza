@@ -21,4 +21,11 @@ public class Energy extends Carta {
 		// TODO Auto-generated method stub
 		return visitor.visitar(this);
 	}
+	public void setElemento(String elemento) {
+		this.elemento = elemento;
+	}
+	@Override
+	public String aLinea() {
+		return getNombreCarta() + ";" + getRareza() + ";Energy;" + elemento;
+	}
 }

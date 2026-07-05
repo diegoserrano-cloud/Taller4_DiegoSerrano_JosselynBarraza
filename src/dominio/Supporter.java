@@ -21,4 +21,12 @@ public class Supporter extends Carta {
 		// TODO Auto-generated method stub
 		return visitor.visitar(this);
 	}
+	
+	public void setEfectos(int efectos) {
+		this.efectos = efectos;
+	}
+	@Override
+	public String aLinea() {
+		return getNombreCarta() + ";" + getRareza() + ";Supporter;" + efectos;
+	}
 }

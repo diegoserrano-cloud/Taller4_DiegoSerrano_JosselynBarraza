@@ -20,6 +20,8 @@ public abstract class Carta {
 	
 	public abstract double accept(Visitor visitor);
 	
+	public abstract String aLinea();
+	
 	@Override
 	public abstract String toString();
 	

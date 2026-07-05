@@ -16,12 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class App {
 	private static Sistema sis = SistemaImple.getInstancia();
@@ -145,9 +140,85 @@ public class App {
 	}
 
 	private static void agregar_Carta() {
-		System.out.println(
-				"Que tipo de carta desea Agregar: \n" + "1. Pokemon\n" + "2. Item\n" + "3. Energy\n" + "4. Supporter");
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+		JComboBox<String> tipoCombo = new JComboBox<>(new String[] {"Pokemon", "Item", "Supporter", "Energy"});
+		JTextField nombreField = new JTextField(10);
+		JTextField rarezaField = new JTextField(10);
+
+		JTextField campo1 = new JTextField(10); // Daño / Bonificacion / Efectos / Elemento
+		JTextField campo2 = new JTextField(10); // CantEnergias (solo Pokemon)
+
+		JLabel label1 = new JLabel("Daño:");
+		JLabel label2 = new JLabel("CantEnergias:");
+
+		panel.add(new JLabel("Tipo de carta:"));
+		panel.add(tipoCombo);
+		panel.add(new JLabel("Nombre:"));
+		panel.add(nombreField);
+		panel.add(new JLabel("Rareza:"));
+		panel.add(rarezaField);
+		panel.add(label1);
+		panel.add(campo1);
+		panel.add(label2);
+		panel.add(campo2);
+
+		// Cambia las etiquetas y muestra/oculta campo2 según el tipo elegido
+		tipoCombo.addActionListener(e -> {
+			String tipo = (String) tipoCombo.getSelectedItem();
+			switch (tipo) {
+				case "Pokemon":
+					label1.setText("Daño:");
+					label2.setText("CantEnergias:");
+					campo2.setVisible(true);
+					label2.setVisible(true);
+					break;
+				case "Item":
+					label1.setText("Bonificación:");
+					label2.setVisible(false);
+					campo2.setVisible(false);
+					break;
+				case "Supporter":
+					label1.setText("EfectosPorTurno:");
+					label2.setVisible(false);
+					campo2.setVisible(false);
+					break;
+				case "Energy":
+					label1.setText("Elemento:");
+					label2.setVisible(false);
+					campo2.setVisible(false);
+					break;
+			}
+		});
+
+		int resultado = JOptionPane.showConfirmDialog(null, panel, "Agregar Carta",
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+		if (resultado == JOptionPane.OK_OPTION) {
+			try {
+				String tipo = (String) tipoCombo.getSelectedItem();
+				String nombre = nombreField.getText();
+				String rareza = rarezaField.getText();
+
+				String[] partes;
+				if (tipo.equals("Pokemon")) {
+					partes = new String[] {nombre, rareza, tipo, campo1.getText(), campo2.getText()};
+				} else {
+					partes = new String[] {nombre, rareza, tipo, campo1.getText()};
+				}
+
+				sis.crearCarta(partes);
+				JOptionPane.showMessageDialog(null, "Carta agregada correctamente.");
+
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null, "Error: ingresa números válidos en Rareza/Daño/etc.",
+						"Error de datos", JOptionPane.ERROR_MESSAGE);
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, "Error inesperado: " + ex.getMessage(),
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 
 	private static void leer_Arch() throws IOException {

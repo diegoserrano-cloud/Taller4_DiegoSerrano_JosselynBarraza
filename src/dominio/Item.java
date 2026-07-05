@@ -21,4 +21,12 @@ public class Item extends Carta {
 		// TODO Auto-generated method stub
 		return visitor.visitar(this);
 	}
+	
+	public void setBonificacion(int bonificacion) {
+		this.bonificacion = bonificacion;
+	}
+	@Override
+	public String aLinea() {
+		return getNombreCarta() + ";" + getRareza() + ";Item;" + bonificacion;
+	}
 }

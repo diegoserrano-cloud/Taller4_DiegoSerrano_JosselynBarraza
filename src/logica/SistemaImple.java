@@ -1,5 +1,7 @@
 package logica;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -74,5 +76,61 @@ public class SistemaImple implements Sistema {
 			msg += c.toString() + "\n";
 		}
 		return msg;
+	}
+
+	@Override
+	public boolean eliminarCarta(int indice) {
+		if (indice < 0 || indice >= cartas.size()) {
+			return false;
+		}
+		cartas.remove(indice);
+		guardarArchivo();
+		return true;
+	}
+
+	@Override
+	public boolean modificarCarta(int indice, String[] nuevosDatos) {
+		if (indice < 0 || indice >= cartas.size()) {
+			return false;
+		}
+		Carta c = cartas.get(indice);
+
+		if (c instanceof Pokemon) {
+			Pokemon p = (Pokemon) c;
+			p.setDaño(Integer.parseInt(nuevosDatos[0]));
+			p.setCantEnergias(Integer.parseInt(nuevosDatos[1]));
+
+		} else if (c instanceof Item) {
+			Item i = (Item) c;
+			i.setBonificacion(Integer.parseInt(nuevosDatos[0]));
+
+		} else if (c instanceof Supporter) {
+			Supporter s = (Supporter) c;
+			s.setEfectos(Integer.parseInt(nuevosDatos[0]));
+
+		} else if (c instanceof Energy) {
+			Energy e = (Energy) c;
+			e.setElemento(nuevosDatos[0]);
+
+		} else {
+			return false;
+		}
+
+		guardarArchivo();
+		return true;
+	}
+
+	@Override
+	public void guardarArchivo() {
+		try {
+			FileWriter fw = new FileWriter("sobres.txt");
+			for (Carta c : cartas) {
+				fw.write(c.aLinea() + "\n");
+			}
+			fw.close();
+		} catch (IOException e) {
+			System.out.println("Error al guardar el archivo: " + e.getMessage());
+		}
+		
 	}
 }

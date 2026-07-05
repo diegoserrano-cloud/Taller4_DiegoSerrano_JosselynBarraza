@@ -27,5 +27,15 @@ public class Pokemon extends Carta {
 		// TODO Auto-generated method stub
 		return visitor.visitar(this);
 	}
+	public void setDaño(int daño) {
+		this.daño = daño;
+	}
+	public void setCantEnergias(int cantEnergias) {
+		this.CantEnergias = cantEnergias;
+	}
+	@Override
+	public String aLinea() {
+		return getNombreCarta() + ";" + getRareza() + ";Pokemon;" + daño + ";" + CantEnergias;
+	}
 
 }

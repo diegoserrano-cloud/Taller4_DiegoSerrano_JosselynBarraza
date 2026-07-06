@@ -22,3 +22,43 @@ Finalmente, el objetivo del proyecto es desarrollar un software que permita admi
   - GitHub: josselynbarraza-sys
     
 ## Estructura del proyecto
+- Taller2_DiegoSerrano_JosselynBarraza
+    - Imagenes #carpeta con la simagenes de las cartas
+    - src
+        - Factory
+            - FactoryCarta.java
+        - Strategy
+            - OrdenNombre.java
+            - OrdenPoder.java
+            - OrdenRareza.java
+            - StrategyOrdenar.java
+        - Visitor
+            - CalculadorPoder.java
+            - Visitor.java
+        - dominio
+            - Carta.java # Clase abstracta
+            - Energy.java 
+            - Item.java 
+            - Pokemon.java 
+            - Supporter.java 
+        - Logica
+            - App.java # Clase principal que contiene toda la logica detrás del juego
+            - Sistema.java #Interfaz
+            - SistemaImple.java #Implementación de la interfaz, se encarga de todo
+        - module-info.java
+    - .classpath
+    - .project
+    - Diagramas (1).pdf
+    - README.md
+    - sobres.txt
+
+## Instrucciones 
+- Requisitos previos
+  - Java JDK 11 o superior instalado
+  - Tener algún IDE instalado compatible con java, por ejemplo, Eclipse IDE o Visual Studio Code.
+
+- Instrucciones de ejecución
+  - Importar el proyecto dentro del IDE seleccionado.
+  - Seleccionar la carpeta src -> package "Logica" -> Clase "App".
+  - Una vez dentro buscar el boton de "Play".
+  - Disfrutar del juego :D

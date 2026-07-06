@@ -23,7 +23,7 @@ Finalmente, el objetivo del proyecto es desarrollar un software que permita admi
     
 ## Estructura del proyecto
 - Taller2_DiegoSerrano_JosselynBarraza
-    - Imagenes #carpeta con la simagenes de las cartas
+    - Imagenes    #carpeta con las imagenes de las cartas
     - src
         - Factory
             - FactoryCarta.java

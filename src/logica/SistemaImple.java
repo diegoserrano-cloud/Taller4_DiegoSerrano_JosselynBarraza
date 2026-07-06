@@ -17,8 +17,7 @@ public class SistemaImple implements Sistema {
 	}
 
 	public static SistemaImple getInstancia() {
-		if (instancia == null)
-			instancia = new SistemaImple();
+		if (instancia == null) instancia = new SistemaImple();
 		return instancia;
 	}
 
@@ -26,6 +25,7 @@ public class SistemaImple implements Sistema {
 	public void crearCarta(String[] partes) {
 		Carta c = FactoryCarta.crearCarta(partes);
 		cartas.add(c);
+		guardarArchivo();
 	}
 
 	
@@ -95,23 +95,22 @@ public class SistemaImple implements Sistema {
 		}
 		Carta c = cartas.get(indice);
 
-		if (c instanceof Pokemon) {
+		if (c.tipo().equalsIgnoreCase("Pokemon")) {
 			Pokemon p = (Pokemon) c;
 			p.setDaño(Integer.parseInt(nuevosDatos[0]));
 			p.setCantEnergias(Integer.parseInt(nuevosDatos[1]));
 
-		} else if (c instanceof Item) {
+		} else if (c.tipo().equalsIgnoreCase("Item")) {
 			Item i = (Item) c;
 			i.setBonificacion(Integer.parseInt(nuevosDatos[0]));
 
-		} else if (c instanceof Supporter) {
+		} else if (c.tipo().equalsIgnoreCase("Supporter")) {
 			Supporter s = (Supporter) c;
 			s.setEfectos(Integer.parseInt(nuevosDatos[0]));
 
-		} else if (c instanceof Energy) {
+		} else if (c.tipo().equalsIgnoreCase("Energy")) {
 			Energy e = (Energy) c;
 			e.setElemento(nuevosDatos[0]);
-
 		} else {
 			return false;
 		}
@@ -122,16 +121,13 @@ public class SistemaImple implements Sistema {
 
 	@Override
 	public void guardarArchivo() {
-		try {
-			FileWriter fw = new FileWriter("sobres.txt");
-			for (Carta c : cartas) {
-				fw.write(c.aLinea() + "\n");
-			}
-			fw.close();
-		} catch (IOException e) {
-			System.out.println("Error al guardar el archivo: " + e.getMessage());
-		}
-		
+	    try (FileWriter fw = new FileWriter("sobres.txt")) {
+	        for (Carta c : cartas) {
+	            fw.write(c.aLinea());
+	            fw.write("\n");
+	        }
+	    } catch (IOException e) {
+	    }
 	}
 
 	@Override
@@ -140,10 +136,10 @@ public class SistemaImple implements Sistema {
 			return null;
 		}
 		Carta c = cartas.get(indice);
-		if (c instanceof Pokemon) return "Pokemon";
-		if (c instanceof Item) return "Item";
-		if (c instanceof Supporter) return "Supporter";
-		if (c instanceof Energy) return "Energy";
+		if (c.tipo().equalsIgnoreCase("Pokemon")) return "Pokemon";
+		if (c.tipo().equalsIgnoreCase("Item")) return "Item";
+		if (c.tipo().equalsIgnoreCase("Supporter")) return "Supporter";
+		if (c.tipo().equalsIgnoreCase("Energy")) return "Energy";
 		return null;
 	}
 }

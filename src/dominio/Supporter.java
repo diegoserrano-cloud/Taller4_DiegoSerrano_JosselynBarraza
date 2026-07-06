@@ -29,4 +29,8 @@ public class Supporter extends Carta {
 	public String aLinea() {
 		return getNombreCarta() + ";" + getRareza() + ";Supporter;" + efectos;
 	}
+	@Override
+	public String tipo() {
+		return "Supporter";
+	}
 }

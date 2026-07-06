@@ -29,4 +29,8 @@ public class Item extends Carta {
 	public String aLinea() {
 		return getNombreCarta() + ";" + getRareza() + ";Item;" + bonificacion;
 	}
+	@Override
+	public String tipo() {
+		return "Item";
+	}
 }

@@ -37,5 +37,9 @@ public class Pokemon extends Carta {
 	public String aLinea() {
 		return getNombreCarta() + ";" + getRareza() + ";Pokemon;" + daño + ";" + CantEnergias;
 	}
+	@Override
+	public String tipo() {
+		return "Pokemon";
+	}
 
 }

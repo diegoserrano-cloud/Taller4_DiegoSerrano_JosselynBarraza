@@ -24,5 +24,6 @@ public abstract class Carta {
 	
 	@Override
 	public abstract String toString();
+	public abstract String tipo();
 	
 }

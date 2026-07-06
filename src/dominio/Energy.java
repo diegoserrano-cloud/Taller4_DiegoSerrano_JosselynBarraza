@@ -28,4 +28,8 @@ public class Energy extends Carta {
 	public String aLinea() {
 		return getNombreCarta() + ";" + getRareza() + ";Energy;" + elemento;
 	}
+	@Override
+	public String tipo() {
+		return "Energy";
+	}
 }

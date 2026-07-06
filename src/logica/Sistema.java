@@ -16,4 +16,10 @@ public interface Sistema {
 	public void guardarArchivo();
 
 	public String tipoDeCarta(int indice);
+	
+	public dominio.Carta getCarta(int indice);
+	
+	public int cantidadCartas();
+	
+	public double calcularPoder(int indice);
 }

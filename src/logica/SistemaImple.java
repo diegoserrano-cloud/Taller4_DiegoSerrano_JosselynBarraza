@@ -7,11 +7,14 @@ import java.util.ArrayList;
 
 import Factory.FactoryCarta;
 import Strategy.*;
+import Visitor.CalculadorPoder;
 import dominio.*;
 
 public class SistemaImple implements Sistema {
 	private static SistemaImple instancia;
 	private ArrayList<Carta> cartas = new ArrayList<>();
+	
+	private CalculadorPoder calculadora = new CalculadorPoder();
 
 	private SistemaImple() {
 	}
@@ -72,8 +75,10 @@ public class SistemaImple implements Sistema {
 	 */
 	public String mostrarColeccion() {
 		String msg = "";
-		for (Carta c : cartas) {
-			msg += c.toString() + "\n";
+		for (int i = 0; i < cartas.size(); i++) {
+			Carta c = cartas.get(i);
+			double poder = c.accept(calculadora);
+			msg += "[" + i + "] " + c.toString() + " | Poder: " + poder + "\n";
 		}
 		return msg;
 	}
@@ -127,6 +132,7 @@ public class SistemaImple implements Sistema {
 	            fw.write("\n");
 	        }
 	    } catch (IOException e) {
+	    	System.out.println("Hubo un error al guardar el increíble archivo: " + e.getMessage());
 	    }
 	}
 
@@ -141,5 +147,22 @@ public class SistemaImple implements Sistema {
 		if (c.tipo().equalsIgnoreCase("Supporter")) return "Supporter";
 		if (c.tipo().equalsIgnoreCase("Energy")) return "Energy";
 		return null;
+	}
+	
+	@Override
+	public Carta getCarta(int indice) {
+		if (indice < 0 || indice >= cartas.size()) return null;
+		return cartas.get(indice);
+	}
+
+	@Override
+	public int cantidadCartas() {
+		return cartas.size();
+	}
+	
+	@Override
+	public double calcularPoder(int indice) {
+		if (indice < 0 || indice >= cartas.size()) return 0;
+		return cartas.get(indice).accept(calculadora);
 	}
 }

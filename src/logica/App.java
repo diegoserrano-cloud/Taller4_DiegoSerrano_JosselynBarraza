@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -86,29 +87,44 @@ public class App {
 	        JTextField input = new JTextField(10);
 	        JButton ok = new JButton("Aceptar");
 
-	        JLabel resultado = new JLabel(" ");
+	        JList<String> listaCartas = new JList<>();
+	        JScrollPane scrollLista = new JScrollPane(listaCartas);
+
+	        listaCartas.addListSelectionListener(ev -> {
+	        	if (!ev.getValueIsAdjusting() && listaCartas.getSelectedIndex() != -1) {
+	        		mostrarVistaAmpliada(listaCartas.getSelectedIndex());
+	        	}
+	        });
 
 	        inputPanel.add(new JLabel("Ingresa opción: "));
 	        inputPanel.add(input);
 	        inputPanel.add(ok);
 	        
 	        ok.addActionListener(ev -> {
-	            String opcion = input.getText();
-	            String texto = menu_Coleccion(opcion);
+	        	String opcion = input.getText();
 
-	            if (opcion.equals("4")) {
-	                panelVacio.removeAll();
-	                panelVacio.revalidate();
-	                panelVacio.repaint();
-	                return;
-	            }
+	        	if (opcion.equals("4")) {
+	        		panelVacio.removeAll();
+	        		panelVacio.revalidate();
+	        		panelVacio.repaint();
+	        		return;
+	        	}
 
-	            resultado.setText("<html>" + texto + "</html>");
+	        	if (opcion.equals("1")) sis.setEstrategia("Rareza");
+	        	else if (opcion.equals("2")) sis.setEstrategia("Nombre");
+	        	else if (opcion.equals("3")) sis.setEstrategia("Poder");
+	        	else {
+	        		JOptionPane.showMessageDialog(ventana, "Opción inválida.");
+	        		return;
+	        	}
+	        	sis.ordenar();
+
+	        	String[] items = sis.mostrarColeccion().split("\n");
+	        	listaCartas.setListData(items);
 	        });
-
 	        panelVacio.add(l, BorderLayout.NORTH);
 	        panelVacio.add(inputPanel, BorderLayout.CENTER);
-	        panelVacio.add(resultado, BorderLayout.SOUTH);
+	        panelVacio.add(scrollLista, BorderLayout.SOUTH);
 	        
 	        panelVacio.revalidate();
 	        panelVacio.repaint();
@@ -363,5 +379,64 @@ public class App {
 			}
 		}
 	}
+	
+	/**
+	 * Busca la imagen de una carta según su nombre, probando extensiones comunes. Si no la encuentra, 
+	 * retorna la imagen por defecto.
+	 * @param nombreCarta nombre de la carta
+	 * @param ancho ancho deseado en píxeles
+	 * @param alto alto deseado en píxeles
+	 * @return ImageIcon escalado, o null si ni siquiera existe la imagen por defecto
+	 */
+	private static ImageIcon cargarImagen(String nombreCarta, int ancho, int alto) {
+		String[] extensiones = {"png", "jpg", "jpeg"};
+		File archivo = null;
 
+		for (String ext : extensiones) {
+			File candidato = new File("Imagenes/" + nombreCarta + "." + ext);
+			if (candidato.exists()) {
+				archivo = candidato;
+				break;
+			}
+		}
+
+		if (archivo == null) {
+			archivo = new File("Imagenes/default.png");
+			if (!archivo.exists()) {
+				return null;
+			}
+		}
+
+		ImageIcon original = new ImageIcon(archivo.getPath());
+		Image escalada = original.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+		return new ImageIcon(escalada);
+	}
+	
+	/**
+	 * Muestra una ventana con la vista ampliada de una carta: su imagen,
+	 * sus atributos y su poder calculado.
+	 * @param indice posición de la carta en la colección
+	 */
+	private static void mostrarVistaAmpliada(int indice) {
+		dominio.Carta c = sis.getCarta(indice);
+		if (c == null) return;
+
+		double poder = sis.calcularPoder(indice); 
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+		ImageIcon icono = cargarImagen(c.getNombreCarta(), 200, 260);
+		if (icono != null) {
+			JLabel imagenLabel = new JLabel(icono);
+			imagenLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+			panel.add(imagenLabel);
+		}
+
+		JLabel info = new JLabel("<html><br>" + c.toString().replace("|", "<br>") 
+				+ "<br>Poder calculado: " + poder + "</html>");
+		panel.add(info);
+
+		JOptionPane.showMessageDialog(ventana, panel, "Vista ampliada", JOptionPane.PLAIN_MESSAGE);
+	}
 }

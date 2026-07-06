@@ -22,7 +22,7 @@ Finalmente, el objetivo del proyecto es desarrollar un software que permita admi
   - GitHub: josselynbarraza-sys
     
 ## Estructura del proyecto
-- Taller2_DiegoSerrano_JosselynBarraza
+- Taller4_DiegoSerrano_JosselynBarraza
     - Imagenes    #carpeta con las imagenes de las cartas
     - src
         - Factory

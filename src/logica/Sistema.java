@@ -4,9 +4,8 @@ public interface Sistema {
 
 	public void crearCarta(String[] partes);
 
-	public void ordenar();
-
 	public void setEstrategia(String e);
+	public void ordenar();
 
 	public String mostrarColeccion();
 	

@@ -24,8 +24,8 @@ public class App {
 	private static JFrame ventana;
 
 	public static void main(String[] args) throws Exception {
-		leer_Arch();
 		ventana = new JFrame("Sistema");
+		leer_Arch();
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		ventana.setSize(800, 600);
 		ventana.setLocationRelativeTo(null);
